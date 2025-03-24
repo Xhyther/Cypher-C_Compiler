@@ -37,7 +37,9 @@ enum TokenType
     Token_DO,
     Token_WHILE,
     Token_FOR,
-    Token_PRINT
+    Token_PRINT,
+
+    EOF
 };
 
 int main(void)
