@@ -39,11 +39,21 @@ enum TokenType
     Token_FOR,
     Token_PRINT,
 
-    EOF
+    Token_EOF
 };
 
-int main(void)
+typedef struct {
+    TokenType type;
+    char *Lexeme;
+    int line; 
+}Token;
+
+int main(int argc, char *argv[])
 {
-    printf("Hello World!");
+    printf("Number of Arguments: %d\n", argc);
+    if(argc > 0)
+    {
+        printf("Compiling: [%s]\n", argv[0]);
+    }
     return 0;
 }
