@@ -1,0 +1,60 @@
+
+-Still debating whether to use scoppe/function/Block type main function
+int main()
+{
+
+}
+
+//DataTypes
+--int
+--string
+--character
+--booolean
+
+// printing (yes) & input (No?)
+
+//Body--------------------------------------------------
+
+//Assignment
+let identifier dataType := dataValue;
+let x int := 1;
+let y string := "Hello World!";
+let z bool := true;
+let a char := 'A';
+
+//Printing or Output
+out :: x;
+out :: y;
+out :: z;
+out :: a;
+
+OR
+
+out :: 1;
+out :: "Hello";
+out :: true;
+out :: 'A';
+
+//Loops
+
+let i int := 1;
+for i; i < 5; i++ {
+    out :: i;
+}
+
+while(true)
+{
+    out :: "Hello World";
+}
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------
