@@ -1,5 +1,4 @@
 
-```markdown
 # 🔣 Cypher Language – A Toy Programming Language Front-End
 
 Cypher is a **semi-compiler front-end** for a custom toy programming language designed to practice and demonstrate the core concepts of compiler construction. It includes:
@@ -119,8 +118,4 @@ MIT License – feel free to use or build upon this for educational purposes.
 ## 🙋‍♂️ Author
 
 **@yourusername** – Second-year CS student passionate about compilers, systems, and language design.
-```
-
----
-
-Would you like a separate `docs/spec.md` for grammar rules and token definitions too? That can help guide your implementation while serving as internal documentation.
+``
