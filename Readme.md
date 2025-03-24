@@ -115,7 +115,4 @@ MIT License – feel free to use or build upon this for educational purposes.
 
 ---
 
-## 🙋‍♂️ Author
-
-**@yourusername** – Second-year CS student passionate about compilers, systems, and language design.
 ``
