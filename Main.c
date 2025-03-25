@@ -36,11 +36,10 @@ void LexicalScannerTest(){
     int TokenCount = 0;
     initScanner(stringToken);
 
-    while(currentToken.type != Token_EOF && TokenCount < MaxToken){
-        printf("\nDebug: Current Token Count = %d\n\n", TokenCount);
+    while(currentToken.type != Token_ERROR && currentToken.type != Token_EOF && TokenCount < MaxToken){
         currentToken = scanToken();
         Tokens[TokenCount] = currentToken; // Get the next token
-        printf("Token: %s", currentToken.start);
+        printf("Token: %.*s \n", currentToken.length ,currentToken.start);
         switch(currentToken.type)
         {
             case Token_LEFT_PARENT: 
@@ -98,6 +97,9 @@ void LexicalScannerTest(){
                 break;
             case Token_LESS_EQUAL: 
                 printf("Token type: %s", "Token_LESS_EQUAL");
+                break;
+            case Token_Number: 
+                printf("Token type: %s", "Token_Number");
                 break;
 
             

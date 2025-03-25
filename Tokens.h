@@ -29,6 +29,7 @@ typedef enum
     
     //Literals
     Token_IDENTIFIER,
+    Token_CHAR,
     Token_STRING,
     Token_Number,
 
@@ -45,18 +46,21 @@ typedef enum
     Token_ERROR
 }TokenType;
 
-typedef struct {
+typedef struct 
+{
     TokenType type;
     const char* start;
     int length;
     int line;
 }Token;
 
-static bool isAtEnd(){
+static bool isAtEnd()
+{
     return *scanner.current == '\0' || *scanner.current =='\n';
 }
 
-static Token makeToken(TokenType type) {
+static Token makeToken(TokenType type)
+{
     Token token;
     token.type = type;
     token.start = scanner.start;
@@ -65,22 +69,25 @@ static Token makeToken(TokenType type) {
     return token;
 }
 
-static Token errorToken(const char* message) {
+static Token errorToken(const char* message)
+{
     Token token;
     token.type = Token_ERROR;
     token.start = message;
     token.length = (int)strlen(message);
     token.line = scanner.line;
     return token;
-  }
+}
 
 
-static char peek() {
+static char peek() 
+{
     return *scanner.current;
-  }
+}
 
   
-static char peekNext() {
+static char peekNext()
+{
     if (isAtEnd()) return '\0';
     return scanner.current[1];
 }  
@@ -101,7 +108,8 @@ static bool match(char expected)
 }
 
 
-static void skipWhitespace(){
+static void skipWhitespace()
+{
     for(;;){
         char c = peek();
         switch (c) {
@@ -128,6 +136,20 @@ static void skipWhitespace(){
     }
 }
 
+static bool isDigit(char c)
+{
+     return c >= '0' && c <= '9';
+
+}
+
+static Token integer()
+{
+    while(isDigit(peek()))
+        advance();
+
+    return makeToken(Token_Number);
+}
+
 Token scanToken()
 {
     scanner.start = scanner.current;
@@ -139,6 +161,7 @@ Token scanToken()
    
 
     char c = advance();
+    if (isDigit(c)) return integer();
     switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
         case ')' : return makeToken(Token_RIGHT_PARENT);
