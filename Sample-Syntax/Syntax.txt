@@ -19,6 +19,8 @@ int main()
 let identifier dataType := dataValue;
 let x int := 1;
 let y string := "Hello World!";
+
+
 let z bool := true;
 let a char := 'A';
 
@@ -46,9 +48,6 @@ while(true)
 {
     out :: "Hello World";
 }
-
-
-
 
 
 

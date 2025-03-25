@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include "Scanner.h"
 
-
-enum TokenType 
+typedef enum 
 {
     //Single-Character Tokens
     Token_LEFT_PARENT,
@@ -40,13 +40,36 @@ enum TokenType
     Token_PRINT,
 
     Token_EOF
-};
+}TokenType;
 
 typedef struct {
     TokenType type;
     char *Lexeme;
     int line; 
 }Token;
+
+Token scanToken()
+{
+    scanner.start = scanner.current;
+
+    if(isAtEnd())
+        return makeToken(Token_EOF);
+
+    return -1; //Make a function for returning error token
+}
+
+static bool isAtEnd(){
+    return *scanner.current == "\0";
+}
+
+static token makeToken(TokenType type)
+{
+    Token token;
+    token.type = type;
+    token.line = scanner.line;
+    token.Lexeme = scanner.start;
+    return token;
+}
 
 int main(int argc, const char *argv[])
 {
