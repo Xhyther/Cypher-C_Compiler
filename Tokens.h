@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "Scanner.h"
 
 
@@ -46,21 +47,15 @@ typedef enum
 
 typedef struct {
     TokenType type;
-    char *Lexeme;
+    const char *Lexeme;
     int line; 
 }Token;
 
-Token scanToken()
-{
-    scanner.start = scanner.current;
-
-    if(isAtEnd())
-        return makeToken(Token_EOF);
-
-    return -1; //Make a function for returning error token
+static bool isAtEnd(){
+    return *scanner.current == '\0' || *scanner.current =='\n';
 }
 
-static token makeToken(TokenType type)
+static Token makeToken(TokenType type)
 {
     Token token;
     token.type = type;
@@ -69,14 +64,23 @@ static token makeToken(TokenType type)
     return token;
 }
 
-static bool isAtEnd(){
-    return *scanner.current == '\0';
+Token scanToken()
+{
+    scanner.start = scanner.current;
+
+    if(isAtEnd())
+        return makeToken(Token_EOF);
+
+    return makeToken(Token_ERROR); //Make a function for returning error token
 }
 
-static char advance(){
-    scanner.current++;
-    return scanner.current[-1];
+
+
+
+static char advance() {
+    return *(scanner.current++);
 }
+
 
 static bool match(char expected)
 {
@@ -86,9 +90,10 @@ static bool match(char expected)
     return true;
 }
 
- Token Tokenizer(char *source){
-    char *c = source;
-    c = advance();
+ Token Tokenizer(){
+
+    
+    char c = advance();
     switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
         case ')' : return makeToken(Token_RIGHT_PARENT);
@@ -103,16 +108,16 @@ static bool match(char expected)
 
         case '!':
             return makeToken(match('=') ? Token_BANG_EQUALS : Token_BANG);
-        case '<':
-            return makeToken(match('=') ? Token_GREATER_EQUAL : Token_GREATER; 
         case '>':
-            return makeToken(match('=') ? Token_LESS_EQUAL : Token_LESS;     
+            return makeToken(match('=') ? Token_GREATER_EQUAL : Token_GREATER); 
+        case '<':
+            return makeToken(match('=') ? Token_LESS_EQUAL : Token_LESS);     
         case '=':
-            return makeToken(match('=') ? Token_EQUALITY : );
-        case ':'
-            return makeToken(match('=') ? Token_ASSIGNMENT : );
+            return makeToken(match('=') ? Token_EQUALITY : Token_ERROR );
+        case ':':
+            return makeToken(match('=') ? Token_ASSIGNMENT : Token_ERROR);
         
-         
+        case '\0': return makeToken(Token_EOF);  
         default:
             return makeToken(Token_ERROR);
 

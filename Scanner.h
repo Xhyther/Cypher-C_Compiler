@@ -1,8 +1,9 @@
+#pragma once
+
 #include <stdio.h>
 #include <string.h>
 
-
-typedef struct {
+typedef struct{
     const char *start;
     const char *current;
     int line;
