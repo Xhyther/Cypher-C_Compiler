@@ -17,7 +17,7 @@ typedef enum
     Token_STAR,
 
     //One or Two-Character Tokens
-    Token_BANG,
+    Token_BANG,         
     Token_BANG_EQUALS,
     Token_ASSIGNMENT,
     Token_EQUALITY,
@@ -70,7 +70,7 @@ static token makeToken(TokenType type)
 }
 
 static bool isAtEnd(){
-    return *scanner.current == "\0";
+    return *scanner.current == '\0';
 }
 
 static char advance(){
@@ -81,15 +81,15 @@ static char advance(){
 static bool match(char expected)
 {
     if(isAtEnd()) return false;
-    if (scanner.current != expected) return false;
+    if (*scanner.current != expected) return false;
     scanner.current++;
     return true;
 }
 
-static void Tokenizer(char *source){
+ Token Tokenizer(char *source){
     char *c = source;
     c = advance();
-    switch(){
+    switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
         case ')' : return makeToken(Token_RIGHT_PARENT);
         case '{' : return makeToken(Token_LEFT_BRACE);
@@ -113,7 +113,8 @@ static void Tokenizer(char *source){
             return makeToken(match('=') ? Token_ASSIGNMENT : );
         
          
-
+        default:
+            return makeToken(Token_ERROR);
 
     }
 
