@@ -48,7 +48,7 @@ typedef struct {
     int line; 
 }Token;
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     printf("Number of Arguments: %d\n", argc);
     if(argc > 0)
