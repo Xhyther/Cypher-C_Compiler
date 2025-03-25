@@ -78,6 +78,14 @@ static char advance(){
     return scanner.current[-1];
 }
 
+static bool match(char expected)
+{
+    if(isAtEnd()) return false;
+    if (scanner.current != expected) return false;
+    scanner.current++;
+    return true;
+}
+
 static void Tokenizer(char *source){
     char *c = source;
     c = advance();
@@ -92,6 +100,20 @@ static void Tokenizer(char *source){
         case '+' : return makeToken(Token_PLUS);
         case '/' : return makeToken(Token_SLASH);
         case '*' : return makeToken(Token_STAR);
+
+        case '!':
+            return makeToken(match('=') ? Token_BANG_EQUALS : Token_BANG);
+        case '<':
+            return makeToken(match('=') ? Token_GREATER_EQUAL : Token_GREATER; 
+        case '>':
+            return makeToken(match('=') ? Token_LESS_EQUAL : Token_LESS;     
+        case '=':
+            return makeToken(match('=') ? Token_EQUALITY : );
+        case ':'
+            return makeToken(match('=') ? Token_ASSIGNMENT : );
+        
+         
+
 
     }
 
