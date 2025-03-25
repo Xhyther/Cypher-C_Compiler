@@ -2,7 +2,7 @@
 #include "Scanner.h"
 #include "Tokens.h"
 
-#define MaxToken 1000
+#define MaxToken 100
 
 void LexicalScannerTest();
 
@@ -26,6 +26,7 @@ int main(int argc, const char *argv[])
 void LexicalScannerTest(){
     char stringToken[MaxToken];
     Token Tokens[MaxToken];
+    Token  currentToken;
     
     printf("Enter an Expression to be Tokenized: ");
     fgets(stringToken, MaxToken, stdin);
@@ -35,11 +36,12 @@ void LexicalScannerTest(){
     int TokenCount = 0;
     initScanner(stringToken);
 
-    do {
-        printf("Debug: Current Token Count = %d\n", TokenCount);
-        Tokens[TokenCount] = Tokenizer(); // Get the next token
-        printf("Token: %s\n", Tokens[TokenCount].Lexeme);
-        switch(Tokens[TokenCount].type)
+    while(currentToken.type != Token_EOF && TokenCount < MaxToken){
+        printf("\nDebug: Current Token Count = %d\n\n", TokenCount);
+        currentToken = scanToken();
+        Tokens[TokenCount] = currentToken; // Get the next token
+        printf("Token: %s", currentToken.start);
+        switch(currentToken.type)
         {
             case Token_LEFT_PARENT: 
                 printf("Token type: %s", "Token_LEFT_PARENT"); 
@@ -100,7 +102,9 @@ void LexicalScannerTest(){
 
             
         }
-    } while (Tokens[TokenCount++].type != Token_EOF && TokenCount < MaxToken - 1);
+        printf("\n");
+        TokenCount++;
+    }
     
-    
+
 }

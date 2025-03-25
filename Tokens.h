@@ -47,40 +47,50 @@ typedef enum
 
 typedef struct {
     TokenType type;
-    const char *Lexeme;
-    int line; 
+    const char* start;
+    int length;
+    int line;
 }Token;
 
 static bool isAtEnd(){
     return *scanner.current == '\0' || *scanner.current =='\n';
 }
 
-static Token makeToken(TokenType type)
-{
+static Token makeToken(TokenType type) {
     Token token;
     token.type = type;
+    token.start = scanner.start;
+    token.length = (int)(scanner.current - scanner.start);
     token.line = scanner.line;
-    token.Lexeme = scanner.start;
     return token;
 }
 
-Token scanToken()
-{
-    scanner.start = scanner.current;
+static Token errorToken(const char* message) {
+    Token token;
+    token.type = Token_ERROR;
+    token.start = message;
+    token.length = (int)strlen(message);
+    token.line = scanner.line;
+    return token;
+  }
 
-    if(isAtEnd())
-        return makeToken(Token_EOF);
 
-    return makeToken(Token_ERROR); //Make a function for returning error token
+static char peek() {
+    return *scanner.current;
+  }
+
+  
+static char peekNext() {
+    if (isAtEnd()) return '\0';
+    return scanner.current[1];
+}  
+
+
+
+static char advance(){
+    scanner.current++;
+    return scanner.current[-1];
 }
-
-
-
-
-static char advance() {
-    return *(scanner.current++);
-}
-
 
 static bool match(char expected)
 {
@@ -90,9 +100,44 @@ static bool match(char expected)
     return true;
 }
 
- Token Tokenizer(){
 
-    
+static void skipWhitespace(){
+    for(;;){
+        char c = peek();
+        switch (c) {
+            case ' ':
+            case '\r':
+            case '\t':
+              advance();
+              break;
+            case '\n':
+              scanner.line++;
+              advance();
+              break;
+            case '/':
+              if (peekNext() == '/') {
+                // A comment goes until the end of the line.
+                while (peek() != '\n' && !isAtEnd()) advance();
+              } else {
+                return;
+              }
+              break;
+            default:
+              return;
+          }
+    }
+}
+
+Token scanToken()
+{
+    scanner.start = scanner.current;
+    skipWhitespace();
+
+    if(isAtEnd())
+        return makeToken(Token_EOF);
+
+   
+
     char c = advance();
     switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
@@ -116,12 +161,16 @@ static bool match(char expected)
             return makeToken(match('=') ? Token_EQUALITY : Token_ERROR );
         case ':':
             return makeToken(match('=') ? Token_ASSIGNMENT : Token_ERROR);
+
+        case '\0':
+            return makeToken(Token_ERROR);
         
-        case '\0': return makeToken(Token_EOF);  
         default:
             return makeToken(Token_ERROR);
 
     }
 
-
+    return errorToken("Unexpected character.");
 }
+
+
