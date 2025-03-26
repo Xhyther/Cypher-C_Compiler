@@ -101,7 +101,10 @@ void LexicalScannerTest(){
             case Token_Number: 
                 printf("Token type: %s", "Token_Number");
                 break;
+            
 
+            default:
+                printf("Token type: %s", "Token_ERROR");
             
         }
         printf("\n");

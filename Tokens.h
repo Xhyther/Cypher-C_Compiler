@@ -107,6 +107,12 @@ static bool match(char expected)
     return true;
 }
 
+static bool isBalanced(char counterpart)
+{
+ 
+    return true;
+}
+
 
 static void skipWhitespace()
 {
@@ -163,7 +169,7 @@ Token scanToken()
     char c = advance();
     if (isDigit(c)) return integer();
     switch(c){
-        case '(' : return makeToken(Token_LEFT_PARENT);
+        case '(' : return makeToken(isBalanced(')') ? Token_LEFT_PARENT : Token_ERROR);
         case ')' : return makeToken(Token_RIGHT_PARENT);
         case '{' : return makeToken(Token_LEFT_BRACE);
         case '}' : return makeToken(Token_RIGHT_BRACE);
