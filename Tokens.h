@@ -176,7 +176,6 @@ Token scanToken()
         case '+' : return makeToken(Token_PLUS);
         case '/' : return makeToken(Token_SLASH);
         case '*' : return makeToken(Token_STAR);
-
         case '!':
             return makeToken(match('=') ? Token_BANG_EQUALS : Token_BANG);
         case '>':

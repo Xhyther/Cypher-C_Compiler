@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "Scanner.h"
 #include "Tokens.h"
+#include "Balanced.h"
 
 #define MaxToken 100
 
@@ -21,6 +23,8 @@ int main(int argc, const char *argv[])
 
     return 0;
 }
+
+
 
 
 void LexicalScannerTest(){
@@ -115,6 +119,11 @@ void LexicalScannerTest(){
         printf("\n");
         TokenCount++;
     }
+
+    if(isBalanced(Tokens))
+        printf("BALANCED\n");
+    else
+        printf("Error! Not Balanced!\n");
 
     for(int i = 0; i < TokenCount; i++)
     {
