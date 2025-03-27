@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "Scanner.h"
 
 
@@ -150,31 +151,34 @@ static bool isAlpha(char c)
 
 
 
-static TokenType Keywords(const char* keyword, TokenType type) {
-    int length = (int) strlen(keyword);
-    if (scanner.current - scanner.start == length &&
-        memcmp(scanner.start, keyword, length) == 0) {
-        return type;
-    }
-    return Token_IDENTIFIER;
+static TokenType checkKeyword(int start, int length,
+    const char* rest, TokenType type) {
+  if (scanner.current - scanner.start == start + length &&
+      memcmp(scanner.start + start, rest, length) == 0) {
+    return type;
+  }
+
+  return Token_IDENTIFIER;
 }
 
+static TokenType identifierType() {
+    switch (scanner.start[0]) {
+        case 'm': return checkKeyword(1, 3, "ain", Token_MAIN);
+        case 'i': return checkKeyword(1, 1, "f", Token_IF);
+        case 'e': return checkKeyword(1, 3, "lse", Token_ELSE);
+        case 'w': return checkKeyword(1, 4, "hile", Token_WHILE);
+        case 'f': return checkKeyword(1, 2, "or", Token_FOR);
+        case 'p': return checkKeyword(1, 4, "rint", Token_PRINT);
+       
+      }
+    return Token_IDENTIFIER;
+  }
+  
 
 static Token identifier() {
     while (isAlpha(peek()) || isDigit(peek())) advance();
-
-    switch (scanner.current[0])
-    {
-        case 'i': return makeToken(Keywords("if", Token_IF));
-        case 'e': return makeToken(Keywords("else", Token_ELSE));
-        case 'w': return makeToken(Keywords("while", Token_WHILE));
-        case 'f': return makeToken(Keywords("for", Token_FOR));
-        case 'p': return makeToken(Keywords("print", Token_PRINT));
-        
-    }
-
-    return makeToken(Token_IDENTIFIER);
-}
+    return makeToken(identifierType());
+  }
 
 
 
