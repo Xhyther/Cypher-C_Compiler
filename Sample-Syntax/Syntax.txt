@@ -16,9 +16,9 @@ int main()
 //Body--------------------------------------------------
 
 //Assignment
-let identifier dataType := dataValue;
-let x int := 1;
-let y string := "Hello World!";
+identifier dataType := dataValue;
+x int := 1;
+y string := "Hello World!";
 
 
 let z bool := true;

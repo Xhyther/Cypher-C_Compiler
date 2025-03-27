@@ -3,6 +3,7 @@
 #include "Scanner.h"
 
 
+
 typedef enum 
 {
     //Single-Character Tokens
@@ -10,8 +11,8 @@ typedef enum
     Token_RIGHT_PARENT,
     Token_LEFT_BRACE,
     Token_RIGHT_BRACE,
-    Token_COMMA,
-    Token_DOT,
+    Token_COMMA, //------------------
+    Token_DOT, //---------------------
     Token_MINUS,
     Token_PLUS,
     Token_SLASH,
@@ -34,10 +35,9 @@ typedef enum
     Token_Number,
 
     //Keywords
-    Token_LET,
+    Token_MAIN, // for Main function
     Token_IF,
     Token_ELSE,
-    Token_DO,
     Token_WHILE,
     Token_FOR,
     Token_PRINT,
@@ -53,6 +53,10 @@ typedef struct
     int length;
     int line;
 }Token;
+
+
+
+
 
 static bool isAtEnd()
 {
@@ -125,14 +129,6 @@ static void skipWhitespace()
               scanner.line++;
               advance();
               break;
-            case '/':
-              if (peekNext() == '/') {
-                // A comment goes until the end of the line.
-                while (peek() != '\n' && !isAtEnd()) advance();
-              } else {
-                return;
-              }
-              break;
             default:
               return;
           }
@@ -145,6 +141,44 @@ static bool isDigit(char c)
 
 }
 
+static bool isAlpha(char c)
+{
+    return ((c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            (c == '_'));
+}
+
+
+
+static TokenType Keywords(const char* keyword, TokenType type) {
+    int length = (int) strlen(keyword);
+    if (scanner.current - scanner.start == length &&
+        memcmp(scanner.start, keyword, length) == 0) {
+        return type;
+    }
+    return Token_IDENTIFIER;
+}
+
+
+static Token identifier() {
+    while (isAlpha(peek()) || isDigit(peek())) advance();
+
+    switch (scanner.current[0])
+    {
+        case 'i': return makeToken(Keywords("if", Token_IF));
+        case 'e': return makeToken(Keywords("else", Token_ELSE));
+        case 'w': return makeToken(Keywords("while", Token_WHILE));
+        case 'f': return makeToken(Keywords("for", Token_FOR));
+        case 'p': return makeToken(Keywords("print", Token_PRINT));
+        
+    }
+
+    return makeToken(Token_IDENTIFIER);
+}
+
+
+
+
 static Token integer()
 {
     while(isDigit(peek()))
@@ -152,6 +186,8 @@ static Token integer()
 
     return makeToken(Token_Number);
 }
+
+
 
 Token scanToken()
 {
@@ -161,10 +197,18 @@ Token scanToken()
     if(isAtEnd())
         return makeToken(Token_EOF);
 
+    
    
 
     char c = advance();
     if (isDigit(c)) return integer();
+
+    if(isAlpha(c))
+    {
+        return identifier();
+       
+    }
+
     switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
         case ')' : return makeToken(Token_RIGHT_PARENT);
@@ -174,8 +218,17 @@ Token scanToken()
         case '.' : return makeToken(Token_DOT);
         case '-' : return makeToken(Token_MINUS);
         case '+' : return makeToken(Token_PLUS);
-        case '/' : return makeToken(Token_SLASH);
         case '*' : return makeToken(Token_STAR);
+        case '/' : 
+            if (peekNext() == '/')
+            {
+                while(peek() != '\n' &&!isAtEnd())
+                advance();
+                break;
+            }
+            else
+                return makeToken(Token_SLASH);
+
         case '!':
             return makeToken(match('=') ? Token_BANG_EQUALS : Token_BANG);
         case '>':
@@ -183,15 +236,13 @@ Token scanToken()
         case '<':
             return makeToken(match('=') ? Token_LESS_EQUAL : Token_LESS);     
         case '=':
-            return makeToken(match('=') ? Token_EQUALITY : Token_ERROR );
-        case ':':
-            return makeToken(match('=') ? Token_ASSIGNMENT : Token_ERROR);
+            return makeToken(match('=') ? Token_EQUALITY : Token_ASSIGNMENT );
 
         case '\0':
-            return makeToken(Token_ERROR);
+            return makeToken(Token_EOF);
         
         default:
-            return makeToken(Token_ERROR);
+            return errorToken("Undefined token\n");
 
     }
 

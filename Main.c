@@ -17,7 +17,7 @@ int main(int argc, const char *argv[])
         printf("Compiling: [%s]\n", argv[0]);
     }
 
-    LexicalScannerTest();
+    //LexicalScannerTest();
     
 
 
@@ -103,6 +103,15 @@ void LexicalScannerTest(){
             case Token_LESS_EQUAL: 
                 printf("Token type: %s", "Token_LESS_EQUAL");
                 break;
+            case Token_IDENTIFIER: 
+                printf("Token type: %s", "Token_IDENTIFIER");
+            break;
+            case Token_CHAR: 
+                printf("Token type: %s", "Token_CHAR");
+                break;
+            case Token_STRING: 
+                printf("Token type: %s", "Token_STRING");
+                break;
             case Token_Number: 
                 printf("Token type: %s", "Token_Number");
                 break;
@@ -112,7 +121,8 @@ void LexicalScannerTest(){
             
 
             default:
-                printf("\nToken type: %s", "Token_ERROR");
+                printf("\nToken type: %s\n", "Token_ERROR");
+                printf("\n Error Message: %.*s\n", currentToken.length, currentToken.start);
                 break;
             
         }
