@@ -133,6 +133,7 @@ static void skipWhitespace()
 {
     for(;;){
         char c = current();
+        if(isAtEnd()) return;
         switch (c) {
             case ' ':
             case '\r':
@@ -226,8 +227,9 @@ static Token integer()
 
 Token scanToken()
 {
-    scanner.start = scanner.current;
     skipWhitespace();
+    scanner.start = scanner.current;
+    
 
     if(isAtEnd())
         return makeToken(Token_EOF);
