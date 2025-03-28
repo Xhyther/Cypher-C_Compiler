@@ -145,6 +145,24 @@ static bool isDigit(char c)
 
 }
 
+
+static TokenType isString()
+{
+    while (peek() != '"' && !isAtEnd())
+    {
+        if(peek() == '\n') scanner.line++;
+        advance();
+    }
+
+    if (isAtEnd()) return Token_ERROR;
+    
+    advance();
+    return Token_STRING;
+    
+}
+
+
+
 static bool isAlpha(char c)
 {
     return ((c >= 'a' && c <= 'z') ||
@@ -229,6 +247,8 @@ Token scanToken()
         case '-' : return makeToken(Token_MINUS);
         case '+' : return makeToken(Token_PLUS);
         case '*' : return makeToken(Token_STAR);
+
+        //For comments or division
         case '/' : 
             if (peekNext() == '/')
             {
@@ -238,7 +258,17 @@ Token scanToken()
             }
             else
                 return makeToken(Token_SLASH);
+        
+        //For strings
+        case '"' :
+            if (isString() == Token_ERROR)
+                return errorToken("Strings must have a closng \" ");
+            else
+                return makeToken(Token_STRING);
 
+
+
+        //For conditions
         case '!':
             return makeToken(match('=') ? Token_BANG_EQUALS : Token_BANG);
         case '>':
