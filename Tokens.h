@@ -74,7 +74,7 @@ typedef struct
 
 static bool isAtEnd()
 {
-    return *scanner.current == '\0' || *scanner.current =='\n';
+    return *scanner.current == '\0';
 }
 
 
@@ -329,8 +329,8 @@ void initLexer(const char* source)
 
     }while(token.type != Token_EOF);
 
-    //Token EndOf = {Token_EOF, " ", 1, scanner.line};
-    //addTokenToList(EndOf);
+    Token EndOf = {Token_EOF, " ", 1, scanner.line};
+    addTokenToList(EndOf);
 }
 
 
