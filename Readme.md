@@ -1,4 +1,3 @@
-
 # 🔣 Cypher Language – A Toy Programming Language Front-End
 
 Cypher is a **semi-compiler front-end** for a custom toy programming language designed to practice and demonstrate the core concepts of compiler construction. It includes:
@@ -22,35 +21,35 @@ Cypher supports a minimal yet expressive syntax with the following features:
 - `char` — Single characters
 - `bool` — Boolean values (`true` or `false`)
 
-### 📌 Variable Declarations
+### 📌 Variable Assignments (Type Inference)
 ```cypher
-let x int := 1;
-let y string := "Hello World!";
-let z bool := true;
-let a char := 'A';
+x = 1;
+y = "Hello World!";
+z = true;
+a = 'A';
 ```
 
 ### 📤 Output (Printing)
 ```cypher
-out :: x;
-out :: "Hello";
-out :: true;
+print x;
+print "Hello";
+print true;
 ```
 
 ### 🔁 Loops
 
 **For Loop**
 ```cypher
-let i int := 1;
+i = 1;
 for i; i < 5; i++ {
-    out :: i;
+    print i;
 }
 ```
 
 **While Loop**
 ```cypher
 while (true) {
-    out :: "Hello World";
+    print "Hello World";
 }
 ```
 
@@ -97,7 +96,7 @@ This is an academic/learning project for:
 
 - Function support (`fn`, parameters, returns)
 - Nested scopes
-- Type inference or custom types
+- Type inference improvements
 - AST visualization tool
 - Interpreter or virtual machine backend
 
@@ -113,6 +112,3 @@ This is a personal learning project, but feel free to fork or suggest features, 
 
 MIT License – feel free to use or build upon this for educational purposes.
 
----
-
-``
