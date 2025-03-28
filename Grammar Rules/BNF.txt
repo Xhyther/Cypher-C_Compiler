@@ -6,6 +6,6 @@ It is a C derivated flavor.
 BNF
 
 program ::= "main" block
-block :: = "{"   statement_s    "}"
-statement_s ::= statement*
+block :: = "{"   statements    "}"
+statements ::= statement*
 statement ::= assignment | printing | loops | block

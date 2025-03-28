@@ -327,6 +327,7 @@ void initLexer(const char* source)
         token = scanToken();
         addTokenToList(token);
 
+        //For testing
         printf("Lexeme: %.*s, Line: %d\n", token.length, token.start, token.line);
 
     }while(token.type != Token_EOF);
