@@ -10,8 +10,11 @@ typedef enum
     //Single-Character Tokens
     Token_LEFT_PARENT,
     Token_RIGHT_PARENT,
+    Token_LEFT_BRACKETS,
+    Token_RIGHT_BRACKETS,
     Token_LEFT_BRACE,
     Token_RIGHT_BRACE,
+    Token_SEMICOLON,
     Token_COMMA, //------------------
     Token_DOT, //---------------------
     Token_MINUS,
@@ -216,8 +219,11 @@ Token scanToken()
     switch(c){
         case '(' : return makeToken(Token_LEFT_PARENT);
         case ')' : return makeToken(Token_RIGHT_PARENT);
+        case '[' : return makeToken(Token_LEFT_BRACKETS);
+        case ']' : return makeToken(Token_RIGHT_BRACKETS);
         case '{' : return makeToken(Token_LEFT_BRACE);
         case '}' : return makeToken(Token_RIGHT_BRACE);
+        case ';' : return makeToken(Token_SEMICOLON);
         case ',' : return makeToken(Token_COMMA);
         case '.' : return makeToken(Token_DOT);
         case '-' : return makeToken(Token_MINUS);
