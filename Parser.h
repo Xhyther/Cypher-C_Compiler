@@ -1,6 +1,10 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include "Tokens.h"
+
 
 typedef struct {
     Token currentToken;
@@ -31,15 +35,28 @@ static void errorAt(Token* token, const char* message){
   parser.hasError = true;
 }
 
+static void consumeToken(TokenType type, const char* message){
+    if (parser.currentToken.type == type)
+    {
+        advanceParser();
+        return;
+    }
+
+    errorAtCurrent(message);
+    
+}
+
 static void advanceParser(){
     parser.prevToken = parser.currentToken;
 
-    for (;;)
+    while (true)
     {
         parser.currentToken = scanToken();
         if (parser.currentToken.type != Token_ERROR) break;
         
     }
+
+    errorAtCurrent(parser.currentToken.start);
     
 }
 

@@ -23,8 +23,7 @@ int main(int argc, char* argv[]) {
     Token token;
     do {
         token = scanToken();
-        printf("Token: %d, Lexeme: %.*s, Line: %d\n",
-               token.type, token.length, token.start, token.line);
+        printf("Token: %d, Lexeme: %.*s, Line: %d\n", token.type, token.length, token.start, token.line);
     } while (token.type != Token_EOF);
 
     free(sourceCode);
