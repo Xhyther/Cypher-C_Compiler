@@ -90,13 +90,13 @@ static Token errorToken(const char* message)
 }
 
 
-static char peek() 
+static char current() 
 {
     return *scanner.current;
 }
 
   
-static char peekNext()
+static char Next()
 {
     if (isAtEnd()) return '\0';
     return scanner.current[1];
@@ -122,7 +122,7 @@ static bool match(char expected)
 static void skipWhitespace()
 {
     for(;;){
-        char c = peek();
+        char c = current();
         switch (c) {
             case ' ':
             case '\r':
@@ -148,9 +148,9 @@ static bool isDigit(char c)
 
 static TokenType isString()
 {
-    while (peek() != '"' && !isAtEnd())
+    while (current() != '"' && !isAtEnd())
     {
-        if(peek() == '\n') scanner.line++;
+        if(current() == '\n') scanner.line++;
         advance();
     }
 
@@ -197,7 +197,7 @@ static TokenType identifierType() {
   
 
 static Token identifier() {
-    while (isAlpha(peek()) || isDigit(peek())) advance();
+    while (isAlpha(current()) || isDigit(current())) advance();
     return makeToken(identifierType());
   }
 
@@ -206,7 +206,7 @@ static Token identifier() {
 
 static Token integer()
 {
-    while(isDigit(peek()))
+    while(isDigit(current()))
         advance();
 
     return makeToken(Token_Number);
@@ -250,9 +250,9 @@ Token scanToken()
 
         //For comments or division
         case '/' : 
-            if (peekNext() == '/')
+            if (Next() == '/')
             {
-                while(peek() != '\n' &&!isAtEnd())
+                while(current() != '\n' &&!isAtEnd())
                 advance();
                 break;
             }
