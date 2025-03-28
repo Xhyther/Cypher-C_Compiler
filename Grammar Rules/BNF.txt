@@ -1,0 +1,11 @@
+The following describes the Grammar Rules of Cypher.
+Cypher is a custom Mini Programming Language.
+It is a C derivated flavor.
+
+
+BNF
+
+program ::= "main" block
+block :: = "{"   statement_s    "}"
+statement_s ::= statement*
+statement ::= assignment | printing | loops | block
