@@ -1,59 +1,49 @@
-
--Still debating whether to use scoppe/function/Block type main function
-int main()
-{
-
+// Main Function (Block-Type)
+main {
+    print "Hello, World!";
+    if 5 > 3 {
+        print "Condition is true";
+    }
 }
 
-//DataTypes
+// Data Types
 --int
 --string
 --character
---booolean
+--boolean
 
-// printing (yes) & input (No?)
+// Printing (Yes) & Input (No)
 
-//Body--------------------------------------------------
+// Body--------------------------------------------------
 
-//Assignment
-identifier dataType := dataValue;
-x int := 1;
-y string := "Hello World!";
+// Assignment
+identifier = dataValue;
+x = 1;
+y = "Hello World!";
 
+z = true;
+a = 'A';
 
-let z bool := true;
-let a char := 'A';
-
-//Printing or Output
-out :: x;
-out :: y;
-out :: z;
-out :: a;
+// Printing or Output
+print x;
+print y;
+print z;
+print a;
 
 OR
 
-out :: 1;
-out :: "Hello";
-out :: true;
-out :: 'A';
+print 1;
+print "Hello";
+print true;
+print 'A';
 
-//Loops
+// Loops
 
-let i int := 1;
+i = 1;
 for i; i < 5; i++ {
-    out :: i;
+    print i;
 }
 
-while(true)
-{
-    out :: "Hello World";
+while(true) {
+    print "Hello World";
 }
-
-
-
-
-
-
-
-
-----------------------------------------------------------------------
