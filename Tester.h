@@ -2,11 +2,21 @@
 #include <stdbool.h>
 #include <string.h>
 #include "Scanner.h"
-#include "Tokens.h"
 #include "Balanced.h"
 
 #define MaxToken 1024
 
+
+void PrintingTokens()
+{
+    printf("Tokenizing file\n");
+
+    Token token;
+    do {
+        token = scanToken();
+        printf("Token: %d, Lexeme: %.*s, Line: %d\n", token.type, token.length, token.start, token.line);
+    } while (token.type != Token_EOF);
+}
 
 void LexicalScannerTest(){
     char stringToken[MaxToken];

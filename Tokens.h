@@ -3,6 +3,7 @@
 #include <string.h>
 #include "Scanner.h"
 
+#define MAXTOKEN 1024 + 1 //+1 for appending the EOF
 
 
 typedef enum 
@@ -59,6 +60,15 @@ typedef struct
 }Token;
 
 
+
+typedef struct
+{
+    Token tokens[MAXTOKEN];
+    int counter;
+}Token_List;
+
+
+ static Token_List tokenList = {.counter = 0} ;
 
 
 
@@ -287,6 +297,40 @@ Token scanToken()
     }
 
     return errorToken("Unexpected character.");
+}
+
+
+void addTokenToList(Token token)
+{
+    if (tokenList.counter < MAXTOKEN )
+    {
+        tokenList.tokens[tokenList.counter++] = token;
+    }
+    else
+    {
+        printf("Error! Token Overload\n");
+        exit(1);
+        
+    }
+    
+}
+
+void initLexer(const char* source)
+{
+    initScanner(source);
+     
+    Token token;
+    do
+    {
+        token = scanToken();
+        addTokenToList(token);
+
+        printf("Lexeme: %.*s, Line: %d\n", token.length, token.start, token.line);
+
+    }while(token.type != Token_EOF);
+
+    //Token EndOf = {Token_EOF, " ", 1, scanner.line};
+    //addTokenToList(EndOf);
 }
 
 

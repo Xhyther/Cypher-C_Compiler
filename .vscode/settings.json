@@ -57,6 +57,9 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "balanced.h": "c"
-  }
+    "balanced.h": "c",
+    "tokens.h": "c",
+    "scanner.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Scanner.h"
 
 typedef struct{
     const char *start;
@@ -15,10 +14,12 @@ typedef struct{
 
 Scanner scanner;
 
+
 void initScanner(const char* source) {
     scanner.start = source;
     scanner.current = source;
     scanner.line = 1;
+
 }
 
 static char* ReadFile(const char* filename) {
