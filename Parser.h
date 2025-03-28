@@ -78,5 +78,21 @@ static void parseStatementS()
 
 static void parseStatement()
 {
+
+}
+
+static void parseAssignment()
+{
+    
+}
+
+static void parsePrinting()
+{
+
+}
+
+
+static void parseLoops()
+{
     
 }
