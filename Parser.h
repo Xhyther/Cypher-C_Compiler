@@ -58,7 +58,7 @@ static bool TypeMatch(TokenType type)
     return false;
 }
 
-static Token consume(Token type, char* Message)
+static Token consume(TokenType type, char* Message)
 {
     if (TypeMatch(type))
     {
