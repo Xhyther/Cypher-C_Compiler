@@ -15,6 +15,7 @@ static void parseValue();
 static void parseConditonal();
 static void parseConditonal();
 static void parseExpression();
+static void parsePrint();
 
 typedef struct {
     Token *tokens;
@@ -35,6 +36,7 @@ void initParser()
 static void error(char* Message)
 {
     printf("Error at Line: %d, Error: %s \n", parser.tokens[parser.current].line, Message);
+    exit(1);
 }
 
 static Token peek()
@@ -139,7 +141,7 @@ static void parseStatements()
         break;
 
     case Token_PRINT:
-       
+        parsePrint();
         break;
 
     case Token_FOR:
@@ -149,8 +151,7 @@ static void parseStatements()
 
     default:
         forward();
-        printf("unrecognize tokens\n");
-        break;
+       break;
     }
    
 }
@@ -193,3 +194,14 @@ static void parseExpression()
     
 }
 
+static void parsePrint()
+{
+    consume(Token_PRINT, "Expected the keyword Print");
+    if (peek().type == Token_IDENTIFIER )
+    {
+        consume(Token_IDENTIFIER, "Expected a proper Identifer Value");
+    }
+    else parseValue();
+
+    consume(Token_SEMICOLON, "Expected a semicolon at the end of expression");
+}

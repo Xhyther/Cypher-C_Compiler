@@ -2,7 +2,10 @@ main {
     c = 1;
     s = "String";
     c = s;
-
+    print "Hello World";
+    print c;
+    print 2;
+    
     if x > y {
         v = 5;
     }
