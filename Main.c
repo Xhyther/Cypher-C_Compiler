@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include "Parser.h"
-#include "Tester.h"
 
 
 
@@ -14,7 +13,9 @@ int main(int argc, char* argv[]) {
 
     char* sourceCode = ReadFile(argv[1]);
 
-    initScanner(sourceCode);
+    initLexer(sourceCode);
+    initParser();
+    parseProgram();
 
 
 

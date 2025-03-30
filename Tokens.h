@@ -9,12 +9,12 @@
 typedef enum 
 {
     //Single-Character Tokens
-    Token_LEFT_PARENT,
-    Token_RIGHT_PARENT,
-    Token_LEFT_BRACKETS,
-    Token_RIGHT_BRACKETS,
-    Token_LEFT_BRACE,
-    Token_RIGHT_BRACE,
+    Token_LEFT_PARENT, // (
+    Token_RIGHT_PARENT, // )
+    Token_LEFT_BRACKETS, // [
+    Token_RIGHT_BRACKETS, // ]
+    Token_LEFT_BRACE, // {
+    Token_RIGHT_BRACE, // }
     Token_SEMICOLON,
     Token_COMMA, //------------------
     Token_DOT, //---------------------
@@ -35,7 +35,6 @@ typedef enum
     
     //Literals
     Token_IDENTIFIER,
-    Token_CHAR,
     Token_STRING,
     Token_Number,
 
