@@ -5,8 +5,15 @@ main {
     print "Hello World";
     print c;
     print 2;
-    
+
     if x > y {
         v = 5;
+        print "Hello Vhon";
+    }
+
+
+
+    for i = 1; i < 10; i++ {
+        print "Hello World";
     }
 }

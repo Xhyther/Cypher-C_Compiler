@@ -13,9 +13,13 @@ static void parseStatements();
 static void parseAssignment();
 static void parseValue();
 static void parseConditonal();
-static void parseConditonal();
+static void parseElse();
 static void parseExpression();
+static bool parseOperations();
 static void parsePrint();
+static void parserFor();
+
+
 
 typedef struct {
     Token *tokens;
@@ -101,32 +105,34 @@ static void parseProgram()
 
 static void parseBlock()
 {
-    consume(Token_LEFT_BRACE, "Expected a \' { \'.");
-    int depth = 1; //for every left brace ++
+    consume(Token_LEFT_BRACE, "Expected a '{'.");
+    int depth = 1;  // Reset for every block
+
     while (!atEnd())
     {
-        if (peek().type == Token_RIGHT_BRACE )
+        if (peek().type == Token_RIGHT_BRACE)
         {
             depth--;
-            consume(Token_RIGHT_BRACE, "Expected a closing brace: \' } \'.");
-            if(depth == 0 && peekNext().type == Token_EOF) return;
-        } else if (peek().type == Token_LEFT_BRACE) 
+            consume(Token_RIGHT_BRACE, "Expected a closing brace \'}\'.");
+            if (depth == 0) return;
+        }
+        else if (peek().type == Token_LEFT_BRACE) 
+        {
             depth++;
-        
-        parseStatements();
-        
+            forward();  // Consume '{' when detected
+        }
+        else
+        {
+            parseStatements();
+        }
     }
 
     if (depth != 0)
     {
-        error("Unmatched '{': Missing '}'");
-        exit(1);
+        error("Unmatched '{': Missing '}'.");
     }
-     
-    
-    
-    
 }
+
 
 static void parseStatements()
 {
@@ -145,9 +151,11 @@ static void parseStatements()
         break;
 
     case Token_FOR:
-        /* code */
+        parserFor();
         break;
-    
+    case Token_EOF:
+        forward();
+        break;
 
     default:
         forward();
@@ -167,22 +175,39 @@ static void parseAssignment()
 
 static void parseValue()
 {
-   if (!(typeMatch(Token_Number)  || typeMatch(Token_STRING) || typeMatch(Token_IDENTIFIER)))
+   if (!(typeMatch(Token_Number) || typeMatch(Token_STRING) || typeMatch(Token_IDENTIFIER)))
    {
         error("Not A valid value!");
    }
-   
-    
+
+   // If the next token is an operator, continue parsing the right-hand operand
+   while (parseOperations())
+   {
+       consume(Token_IDENTIFIER, "Expected an identifier or number after operator");
+   }
 }
+
 
 static void parseConditonal()
 {
-    consume(Token_IF, "Expected an If statement");
+    consume(Token_IF, "Expected 'if' keyword");
     parseValue();
     parseExpression();
     parseValue();
     parseBlock();
-    
+
+    if (peek().type == Token_ELSE) // Fix: Check `peek()`, not `peekNext()`
+    {
+        parseElse();
+    }
+}
+
+
+
+static void parseElse()
+{
+    consume(Token_ELSE, "Expected 'else' keyword");
+    parseBlock();
 }
 
 static void parseExpression()
@@ -193,6 +218,12 @@ static void parseExpression()
     }
     
 }
+
+static bool parseOperations()
+{
+    return typeMatch(Token_PLUS) || typeMatch(Token_MINUS) || typeMatch(Token_SLASH) || typeMatch(Token_STAR);
+}
+
 
 static void parsePrint()
 {
@@ -205,3 +236,50 @@ static void parsePrint()
 
     consume(Token_SEMICOLON, "Expected a semicolon at the end of expression");
 }
+
+static void parserFor()
+{
+    consume(Token_FOR, "Expected the \"for\" keyword");
+    
+    // Initialization (optional variable assignment)
+    if (peek().type == Token_IDENTIFIER)
+    {
+        if (peekNext().type == Token_ASSIGNMENT)
+        {
+            parseAssignment();  // Handle variable initialization
+        } 
+        else 
+        {
+            consume(Token_IDENTIFIER, "Expected a variable for loop condition");
+            consume(Token_SEMICOLON, "Expected a semicolon after initialization");
+        }
+    }
+
+    
+
+    // Condition
+    consume(Token_IDENTIFIER, "Expected a variable for loop condition");
+    parseExpression();
+    if ((peekNext().type == Token_IDENTIFIER))
+        consume(Token_IDENTIFIER, "Expected a variable for loop comparison");
+    else
+        parseValue();
+    
+    consume(Token_SEMICOLON, "Expected a semicolon after condition");
+
+    // Update step (identifier expected, followed by an update operation)
+    consume(Token_IDENTIFIER, "Expected an identifier for the loop update");
+    if (peek().type == Token_INCREMENT || peek().type == Token_DECREMENT)
+    {
+        forward();  // Consume `i++` or `i--`
+    }
+    else 
+    {
+        error("Expected increment (++) or decrement (--) operation in for loop");
+    }
+
+    // Loop Body
+    parseBlock();  // Parse the block containing loop statements
+}
+
+

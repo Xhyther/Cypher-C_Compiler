@@ -16,10 +16,14 @@ typedef enum
     Token_LEFT_BRACE, // {
     Token_RIGHT_BRACE, // }
     Token_SEMICOLON,
+
     Token_COMMA, //------------------
     Token_DOT, //---------------------
+
     Token_MINUS,
+    Token_DECREMENT,
     Token_PLUS,
+    Token_INCREMENT,
     Token_SLASH,
     Token_STAR,
 
@@ -255,8 +259,10 @@ Token scanToken()
         case ';' : return makeToken(Token_SEMICOLON);
         case ',' : return makeToken(Token_COMMA);
         case '.' : return makeToken(Token_DOT);
-        case '-' : return makeToken(Token_MINUS);
-        case '+' : return makeToken(Token_PLUS);
+        case '-' :
+            return makeToken(match('-') ? Token_DECREMENT : Token_MINUS);
+        case '+' : 
+            return makeToken(match('+') ? Token_INCREMENT : Token_PLUS);
         case '*' : return makeToken(Token_STAR);
 
         //For comments or division
@@ -327,7 +333,7 @@ void initLexer(const char* source)
         addTokenToList(token);
 
         //For testing
-        printf("Lexeme: %.*s, Line: %d\n", token.length, token.start, token.line);
+        printf("Type: %d, Lexeme: %.*s, Line: %d\n", token.type, token.length, token.start, token.line);
 
     }while(token.type != Token_EOF);
 
