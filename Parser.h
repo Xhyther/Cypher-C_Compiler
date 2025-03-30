@@ -12,7 +12,9 @@ static void parseBlock();
 static void parseStatements();
 static void parseAssignment();
 static void parseValue();
-
+static void parseConditonal();
+static void parseConditonal();
+static void parseExpression();
 
 typedef struct {
     Token *tokens;
@@ -133,11 +135,11 @@ static void parseStatements()
         break;
 
     case Token_IF:
-        parserConditonal();
+        parseConditonal();
         break;
 
     case Token_PRINT:
-        /* code */
+       
         break;
 
     case Token_FOR:
@@ -147,7 +149,8 @@ static void parseStatements()
 
     default:
         forward();
-       break;
+        printf("unrecognize tokens\n");
+        break;
     }
    
 }
@@ -168,6 +171,25 @@ static void parseValue()
         error("Not A valid value!");
    }
    
+    
+}
+
+static void parseConditonal()
+{
+    consume(Token_IF, "Expected an If statement");
+    parseValue();
+    parseExpression();
+    parseValue();
+    parseBlock();
+    
+}
+
+static void parseExpression()
+{
+    if (!(typeMatch(Token_BANG_EQUALS) || typeMatch(Token_EQUALITY) || typeMatch(Token_GREATER) || typeMatch(Token_GREATER_EQUAL) || typeMatch(Token_LESS) || typeMatch(Token_LESS_EQUAL)))
+    {
+        error("Not A valid expression!");
+    }
     
 }
 

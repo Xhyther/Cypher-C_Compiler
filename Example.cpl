@@ -2,4 +2,8 @@ main {
     c = 1;
     s = "String";
     c = s;
+
+    if x > y {
+        v = 5;
+    }
 }
