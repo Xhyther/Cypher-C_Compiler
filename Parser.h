@@ -42,10 +42,6 @@ static Token peek()
     return parser.tokens[parser.current];
 }
 
-static Token peekNext()
-{
-    return parser.tokens[parser.current + 1];
-}
 
 static bool TypeMatch(TokenType type)
 {
