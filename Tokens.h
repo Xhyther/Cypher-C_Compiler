@@ -68,7 +68,7 @@ typedef struct
 }Token_List;
 
 
- static Token_List tokenList = {.counter = 0} ;
+Token_List tokenList = {.counter = 0} ;
 
 
 

@@ -7,92 +7,65 @@
 
 
 typedef struct {
-    Token currentToken;
-    Token prevToken;
-    bool hasError;
-    bool panicFlag;
-    const char *errorMessage;
+    Token *tokens;
+    int current;
 }Parser;
 
 Parser parser;
 
-static void error(const char* message){
-    errorAt(&parser.prevToken, message);
+
+
+void initParser()
+{
+    parser.current = 0;
+    parser.tokens = tokenList.tokens;
+    
 }
 
-static void errorAtCurrent(const char* message){
-    errorAt(&parser.currentToken, message);
+static void error(char* Message)
+{
+    printf("Error at Line: %d, Error: %s \n", parser.tokens[parser.current].line, Message);
 }
 
-static void errorAt(Token* token, const char* message){
-    fprintf(stderr, "[line %d] Error", token->line);
-
-    if (token->type == Token_EOF) fprintf(stderr, " at end");
-    else if (token->type == Token_ERROR) {} //Basiclly Ignore
-    else fprintf(stderr, " at '%.*s'", token->length, token->start);
-
-  fprintf(stderr, ": %s\n", message);
-  parser.hasError = true;
+static bool AtEnd()
+{
+    return parser.tokens[parser.current].type == Token_EOF;
 }
 
-static void consumeToken(TokenType type, const char* message){
-    if (parser.currentToken.type == type)
+static Token forward()
+{
+    return parser.tokens[parser.current++];
+}
+
+static Token peek()
+{
+    return parser.tokens[parser.current];
+}
+
+static Token peekNext()
+{
+    return parser.tokens[parser.current + 1];
+}
+
+static bool TypeMatch(TokenType type)
+{
+    if ( parser.tokens[parser.current].type == type)
     {
-        advanceParser();
-        return;
+        forward();
+        return true;
+    }
+    
+    return false;
+}
+
+static Token consume(Token type, char* Message)
+{
+    if (TypeMatch(type))
+    {
+        return parser.tokens[parser.current-1];
     }
 
-    errorAtCurrent(message);
-    
-}
-
-static void advanceParser(){
-    parser.prevToken = parser.currentToken;
-
-    while (true)
-    {
-        parser.currentToken = scanToken();
-        if (parser.currentToken.type != Token_ERROR) break;
-        
-    }
-
-    errorAtCurrent(parser.currentToken.start);
-    
-}
-
-
-static void parseProgram()
-{
-
-}
-
-static void parseBlock()
-{
-
-}
-
-static void parseStatementS()
-{
-
-}
-
-static void parseStatement()
-{
-
-}
-
-static void parseAssignment()
-{
-    
-}
-
-static void parsePrinting()
-{
-
-}
-
-
-static void parseLoops()
-{
+    error(Message);
+    exit(1);
     
 }
