@@ -4,7 +4,7 @@ Cypher is a **semi-compiler front-end** for a custom toy programming language de
 
 - ✅ Lexical Analysis (Scanner)
 - ✅ Syntax Analysis (Parser)
-- ✅ Semantic Analysis (Type & Scope Checking)
+- ❌ Semantic Analysis (Type & Scope Checking) - Soon
 - ❌ No Code Generation or Execution (front-end only)
 
 This project is built using C and serves as an educational tool for understanding how compilers analyze and verify source code.
@@ -18,22 +18,19 @@ Cypher supports a minimal yet expressive syntax with the following features:
 ### 🧾 Data Types
 - `int` — Whole numbers
 - `string` — Text strings
-- `char` — Single characters
-- `bool` — Boolean values (`true` or `false`)
 
 ### 📌 Variable Assignments (Type Inference)
 ```cypher
 x = 1;
 y = "Hello World!";
-z = true;
-a = 'A';
+z = z;
+w = y;
 ```
 
 ### 📤 Output (Printing)
 ```cypher
 print x;
 print "Hello";
-print true;
 ```
 
 ### 🔁 Loops
@@ -45,12 +42,39 @@ for i; i < 5; i++ {
     print i;
 }
 ```
-
-**While Loop**
+or
 ```cypher
-while (true) {
-    print "Hello World";
+
+for i = 1; i < 5; i++ {
+    print i;
 }
+
+---
+
+## 🎭 Grammar Rules (BNF)
+
+```bnf
+<program> ::= "main" <block>
+
+<block> ::= "{" <statements> "}"
+
+<statements> ::= <statement> <statements> | ε
+
+<statement> ::= <assignment> | <print> | <for-loop>
+
+<assignment> ::= <identifier> "=" <value> ";"
+
+<value> ::= <number> | <string> | <identifier>
+
+<print> ::= "print" (<value> | <identifier>) ";"
+
+<for-loop> ::= "for" <identifier> ";" <expression> ";" <update> <block>
+
+<expression> ::= <value> <operator> <value>
+
+<operator> ::= "==" | "!=" | "<" | "<=" | ">" | ">="
+
+<update> ::= <identifier> "++" | <identifier> "--"
 ```
 
 ---
@@ -95,6 +119,7 @@ This is an academic/learning project for:
 ## 🚧 Future Improvements
 
 - Function support (`fn`, parameters, returns)
+- Additional Datatypes (bool, decimal/float, etc)
 - Nested scopes
 - Type inference improvements
 - AST visualization tool
