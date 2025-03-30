@@ -3,52 +3,41 @@ Cypher is a custom Mini Programming Language.
 It is a C derivated flavor.
 
 
-BNF
-<program> ::= "main" <block>
+<program>        ::= "main" <block>
 
-<block> ::= "{" <statements> "}"
+<block>          ::= "{" <statements> "}"
 
-<statements> ::= (<statement>)*
+<statements>     ::= <statement> <statements>
+                   | ε
 
-<statement> ::= <assignment>
-              | <printing>
-              | <loop>
-              | <conditional>
+<statement>      ::= <assignment>
+                   | <if_statement>
+                   | <for_loop>
+                   | <print_statement>
 
-<assignment> ::= <identifier> "=" <value> ";"
+<assignment>     ::= <identifier> "=" <value> ";"
 
-<printing> ::= "print" <printable> ";"
+<value>          ::= <literal> <operations>
+                   | <identifier> <operations>
 
-<printable> ::= <identifier>
-              | <value>
+<operations>     ::= ("+" | "-" | "*" | "/") <value>
+                   | ε
 
-<loop> ::= <for_loop>
-         | <while_loop>
+<literal>        ::= <number>
+                   | <string>
+                   | "true" | "false"
+                   | <character>
 
-<for_loop> ::= "for" <identifier> ";" <expression> ";" <increment> <block>
+<if_statement>   ::= "if" <value> <expression> <value> <block> <else_statement>
 
-<while_loop> ::= "while" "(" <expression> ")" <block>
+<else_statement> ::= "else" <block>
+                   | ε
 
-<conditional> ::= "if" <expression> <block>
+<expression>     ::= "!=" | "==" | ">" | ">=" | "<" | "<="
 
-<expression> ::= <term> ( ("+" | "-" | "*" | "/" | "<" | ">" | "==" | "!=" ) <term> )*
+<print_statement> ::= "print" (<identifier> | <literal>) ";"
 
-<term> ::= <identifier>
-         | <value>
-
-<increment> ::= <identifier> "++"
-
-<value> ::= <number>
-          | <string>
-          | <character>
-          | <boolean>
-
-<identifier> ::= [a-zA-Z_] [a-zA-Z0-9_]*
-
-<number> ::= [0-9]+
-
-<string> ::= "\"" [ any character except "\"" ]* "\""
-
-<character> ::= "'" [ any character except "'" ] "'"
-
-<boolean> ::= "true" | "false"
+<for_loop>       ::= "for" (<assignment> | <identifier> ";") 
+                     <identifier> <expression> (<identifier> | <value>) ";"
+                     <identifier> ("++" | "--")
+                     <block>

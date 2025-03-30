@@ -46,7 +46,6 @@ typedef enum
     Token_MAIN, // for Main function
     Token_IF,
     Token_ELSE,
-    Token_WHILE,
     Token_FOR,
     Token_PRINT,
 
@@ -201,7 +200,6 @@ static TokenType identifierType() {
         case 'm': return checkKeyword(1, 3, "ain", Token_MAIN);
         case 'i': return checkKeyword(1, 1, "f", Token_IF);
         case 'e': return checkKeyword(1, 3, "lse", Token_ELSE);
-        case 'w': return checkKeyword(1, 4, "hile", Token_WHILE);
         case 'f': return checkKeyword(1, 2, "or", Token_FOR);
         case 'p': return checkKeyword(1, 4, "rint", Token_PRINT);
        

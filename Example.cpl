@@ -10,6 +10,12 @@ main {
         v = 5;
         print "Hello Vhon";
     }
+    else
+    {
+        print x;
+        print "hi!";
+        y = 6;
+    }
 
 
 
