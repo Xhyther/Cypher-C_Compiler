@@ -5,17 +5,5 @@ main {
    x = a;
    y = b;
 
-   if x == y {
-        v = 5;
-        print "Hello Word!";
-   }
-   else{
-        print x;
-        print "Hi!";
-        x = 10;
-   }
 
-   for i = 1; i < x; i++ {
-        print i;
-   }
 }

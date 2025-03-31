@@ -59,7 +59,8 @@
   "files.associations": {
     "balanced.h": "c",
     "tokens.h": "c",
-    "scanner.h": "c"
+    "scanner.h": "c",
+    "string.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

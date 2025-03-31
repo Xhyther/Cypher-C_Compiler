@@ -6,6 +6,9 @@
 #include "Tokens.h"
 
 
+
+
+
 //Core Parser Function Declarations
 static void parseProgram();
 static void parseBlock();
@@ -18,6 +21,7 @@ static void parseExpression();
 static bool parseOperations();
 static void parsePrint();
 static void parserFor();
+
 
 
 
@@ -39,7 +43,7 @@ void initParser()
 
 static void error(char* Message)
 {
-    printf("Error at Line: %d, Error: %s \n", parser.tokens[parser.current].line, Message);
+    printf(RED"Error at Line:" RESET  BLU" %d,"RESET  GRN"Error: %s \n"RESET, parser.tokens[parser.current].line, Message);
     exit(1);
 }
 
@@ -100,7 +104,7 @@ static void parseProgram()
     consume(Token_MAIN, "Syntax Error: Expected 'main' function declaration.");
     parseBlock();
 
-    printf("Compiling Success!\n\n\n\n!");
+    printf(GRN"\n\n\nCompiling Success!!\n"RESET);
 }
 
 static void parseBlock()
@@ -292,5 +296,4 @@ static void parserFor()
     // Loop Body
     parseBlock();  // Parse the block containing loop statements
 }
-
 

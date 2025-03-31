@@ -3,6 +3,16 @@
 #include <string.h>
 #include "Scanner.h"
 
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
+
+
 #define MAXTOKEN 1024 + 1 //+1 for appending the EOF
 
 
@@ -331,7 +341,7 @@ void initLexer(const char* source)
         addTokenToList(token);
 
         //For testing
-        printf("Type: %d, Lexeme: %.*s, Line: %d\n", token.type, token.length, token.start, token.line);
+        printf("Type:" GRN"%3d,"RESET CYN"Lexeme: %.*s,"RESET " Line: "RED"%d\n"RESET, token.type, token.length, token.start, token.line);
 
     }while(token.type != Token_EOF);
 
