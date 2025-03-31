@@ -137,3 +137,10 @@ This is a personal learning project, but feel free to fork or suggest features, 
 
 MIT License – feel free to use or build upon this for educational purposes.
 
+---
+
+## 📜 DOCS
+
+https://docs.google.com/document/d/1FJcP-J6phYJ-kNIS9SCHHjs-IF7nY6ku1l2cu46CFPY/edit?usp=sharing
+
+
