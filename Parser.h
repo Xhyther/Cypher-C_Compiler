@@ -97,7 +97,7 @@ static Token consume(TokenType type, char* Message)
 
 static void parseProgram()
 {
-    consume(Token_MAIN, "Expected Main function!");
+    consume(Token_MAIN, "Syntax Error: Expected 'main' function declaration.");
     parseBlock();
 
     printf("Compiling Success!\n\n\n\n!");
@@ -105,7 +105,7 @@ static void parseProgram()
 
 static void parseBlock()
 {
-    consume(Token_LEFT_BRACE, "Expected a '{'.");
+    consume(Token_LEFT_BRACE, "Syntax Error: Expected '{' to begin block.");
     int depth = 1;  // Reset for every block
 
     while (!atEnd())
@@ -113,7 +113,7 @@ static void parseBlock()
         if (peek().type == Token_RIGHT_BRACE)
         {
             depth--;
-            consume(Token_RIGHT_BRACE, "Expected a closing brace \'}\'.");
+            consume(Token_RIGHT_BRACE, "Syntax Error: Expected '}' to close block.");
             if (depth == 0) return;
         }
         else if (peek().type == Token_LEFT_BRACE) 
@@ -167,17 +167,17 @@ static void parseStatements()
 
 static void parseAssignment()
 {
-    consume(Token_IDENTIFIER, " Expected an Identifier");
-    consume(Token_ASSIGNMENT, "Expected = (assignment operator)");
+    consume(Token_IDENTIFIER, "Syntax Error: Expected an identifier.");
+    consume(Token_ASSIGNMENT, "Syntax Error: Expected '=' (assignment operator).");
     parseValue();
-    consume(Token_SEMICOLON, "Expected a semi colon at every end of statement");
+    consume(Token_SEMICOLON, "Syntax Error: Expected a semicolon ';' at the end of the statement.");
 }
 
 static void parseValue()
 {
    if (!(typeMatch(Token_Number) || typeMatch(Token_STRING) || typeMatch(Token_IDENTIFIER)))
    {
-        error("Not A valid value!");
+        error("Syntax Error: Invalid value.");
    }
    else
    {
@@ -195,7 +195,7 @@ static void parseValue()
 
 static void parseConditonal()
 {
-    consume(Token_IF, "Expected 'if' keyword");
+    consume(Token_IF, "Syntax Error: Expected 'if' keyword.");
     parseValue();
     parseExpression();
     parseValue();
@@ -211,7 +211,7 @@ static void parseConditonal()
 
 static void parseElse()
 {
-    consume(Token_ELSE, "Expected 'else' keyword");
+    consume(Token_ELSE, "Syntax Error: Expected 'else' keyword.");
     parseBlock();
 }
 
@@ -219,7 +219,7 @@ static void parseExpression()
 {
     if (!(typeMatch(Token_BANG_EQUALS) || typeMatch(Token_EQUALITY) || typeMatch(Token_GREATER) || typeMatch(Token_GREATER_EQUAL) || typeMatch(Token_LESS) || typeMatch(Token_LESS_EQUAL)))
     {
-        error("Not A valid expression!");
+        error("Syntax Error: Invalid condition expression.");
     }
     
 }
@@ -228,7 +228,7 @@ static bool parseOperations()
 {
     if (_match(Token_PLUS) || _match(Token_MINUS) || _match(Token_SLASH) || _match(Token_STAR))
     {
-        consume(peek().type, "Invalid Opeartion");
+        consume(peek().type, "Syntax Error: Expected a valid arithmetic operator.");
         return true;
     }
     
@@ -238,19 +238,19 @@ static bool parseOperations()
 
 static void parsePrint()
 {
-    consume(Token_PRINT, "Expected the keyword Print");
+    consume(Token_PRINT, "Syntax Error: Expected 'print' keyword.");
     if (peek().type == Token_IDENTIFIER )
     {
-        consume(Token_IDENTIFIER, "Expected a proper Identifer Value");
+        consume(Token_IDENTIFIER, "Syntax Error: Expected a valid identifier for printing.");
     }
     else parseValue();
 
-    consume(Token_SEMICOLON, "Expected a semicolon at the end of expression");
+    consume(Token_SEMICOLON, "Syntax Error: Expected a semicolon ';' at the end of the statement.");
 }
 
 static void parserFor()
 {
-    consume(Token_FOR, "Expected the \"for\" keyword");
+    consume(Token_FOR, "Syntax Error: Expected 'for' keyword.");
     
     // Initialization (optional variable assignment)
     if (peek().type == Token_IDENTIFIER)
@@ -261,32 +261,32 @@ static void parserFor()
         } 
         else 
         {
-            consume(Token_IDENTIFIER, "Expected a variable for loop condition");
-            consume(Token_SEMICOLON, "Expected a semicolon after initialization");
+            consume(Token_IDENTIFIER, "Syntax Error: Expected a valid loop variable.");
+            consume(Token_SEMICOLON, "Syntax Error: Expected a semicolon ';' after loop initialization.");
         }
     }
 
     
 
     // Condition
-    consume(Token_IDENTIFIER, "Expected a variable for loop condition");
+    consume(Token_IDENTIFIER, "Syntax Error: Expected a valid loop variable.");
     parseExpression();
     if ((peekNext().type == Token_IDENTIFIER))
-        consume(Token_IDENTIFIER, "Expected a variable for loop comparison");
+        consume(Token_IDENTIFIER, "Syntax Error: Expected a valid loop variable.");
     else
         parseValue();
     
-    consume(Token_SEMICOLON, "Expected a semicolon after condition");
+    consume(Token_SEMICOLON, "Syntax Error: Expected a semicolon ';' after loop condition.");
 
     // Update step (identifier expected, followed by an update operation)
-    consume(Token_IDENTIFIER, "Expected an identifier for the loop update");
+    consume(Token_IDENTIFIER, "Syntax Error: Expected an identifier for loop update.");
     if (peek().type == Token_INCREMENT || peek().type == Token_DECREMENT)
     {
         forward();  // Consume `i++` or `i--`
     }
     else 
     {
-        error("Expected increment (++) or decrement (--) operation in for loop");
+        error("Syntax Error: Expected '++' or '--' for loop update.");
     }
 
     // Loop Body
