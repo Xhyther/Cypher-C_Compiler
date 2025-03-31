@@ -100,7 +100,7 @@ static void parseProgram()
     consume(Token_MAIN, "Expected Main function!");
     parseBlock();
 
-    printf("Compiling Success!\n!");
+    printf("Compiling Success!\n\n\n\n!");
 }
 
 static void parseBlock()
@@ -179,12 +179,17 @@ static void parseValue()
    {
         error("Not A valid value!");
    }
-
-   // If the next token is an operator, continue parsing the right-hand operand
-   while (parseOperations())
+   else
    {
-       consume(Token_IDENTIFIER, "Expected an identifier or number after operator");
+        if (parseOperations())
+        {
+            parseValue();
+        }
+        return;
    }
+
+
+   
 }
 
 
@@ -221,7 +226,13 @@ static void parseExpression()
 
 static bool parseOperations()
 {
-    return typeMatch(Token_PLUS) || typeMatch(Token_MINUS) || typeMatch(Token_SLASH) || typeMatch(Token_STAR);
+    if (_match(Token_PLUS) || _match(Token_MINUS) || _match(Token_SLASH) || _match(Token_STAR))
+    {
+        consume(peek().type, "Invalid Opeartion");
+        return true;
+    }
+    
+    return false;
 }
 
 

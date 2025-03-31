@@ -1,25 +1,11 @@
 main {
-    c = 1;
-    s = "String";
-    c = s;
-    print "Hello World";
-    print c;
-    print 2;
 
-    if x > y {
-        v = 5;
-        print "Hello Vhon";
-    }
-    else
-    {
-        print x;
-        print "hi!";
-        y = 6;
-    }
-
-
-
-    for i = 1; i < 10; i++ {
-        print "Hello World";
+    vhon = 21;
+    print "Vhon";
+    for i = 5; i < 10; i++ {
+        x = 25 + y;
+        if x < vhon {
+            print vhon;
+        }
     }
 }

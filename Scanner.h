@@ -41,7 +41,7 @@ static char* ReadFile(const char* filename) {
 
     fread(buffer, 1, fileSize, file);
     buffer[fileSize] = '\0';
-
+    
     fclose(file);
     return buffer;
 }
